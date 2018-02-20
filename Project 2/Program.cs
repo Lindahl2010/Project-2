@@ -18,6 +18,9 @@ namespace Project_2
             Write("\n");
             topFive();
 
+            ReadLine();
+
+            
         }//End of Main Method
 
         public static void SBWinners()
@@ -34,7 +37,7 @@ namespace Project_2
             string[] info;
 
             WriteLine("Super Bowl Winners");
-            WriteLine("\n{0,-10}{1,-20}{2,-20}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Difference");
+            WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Difference");
             record = reader.ReadLine();
             while (record != null)
             {
@@ -48,7 +51,7 @@ namespace Project_2
                 superBowl.losingPts = Convert.ToInt32(info[10]);
                 ptDiff = superBowl.winPts - superBowl.losingPts;
                 ptDiff.ToString();
-                WriteLine("{0,-10}{1,-20}{2,-20}{3,-20}{4,-30}{5,-30}", superBowl.date, superBowl.winner, superBowl.QBWinner, superBowl.coachWinner, superBowl.MVP, ptDiff);
+                WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", superBowl.date, superBowl.winner, superBowl.QBWinner, superBowl.coachWinner, superBowl.MVP, ptDiff);
                 record = reader.ReadLine();
             }
 
@@ -71,7 +74,7 @@ namespace Project_2
             string[] info;
 
             WriteLine("Top Five Attended Super Bowl's");
-            WriteLine("\n{0,-10}{1,-20}{2,-20}{3,-20}{4,-30}{5,-30}", "Year", "Winning Team", "Losing Team", "City", "State", "Stadium");
+            WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Winning Team", "Losing Team", "City", "State", "Stadium");
             record = reader.ReadLine();
             while (record != null)
             {
@@ -82,7 +85,7 @@ namespace Project_2
                 superBowl.city = info[13];
                 superBowl.state = info[14];
                 superBowl.stadium = info[12];
-                WriteLine("{0,-10}{1,-20}{2,-20}{3,-20}{4,-30}{5,-30}", superBowl.date, superBowl.winner, superBowl.loser, superBowl.city, superBowl.state, superBowl.stadium);
+                WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", superBowl.date, superBowl.winner, superBowl.loser, superBowl.city, superBowl.state, superBowl.stadium);
                 record = reader.ReadLine();
             }
 
