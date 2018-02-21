@@ -24,6 +24,30 @@ namespace Project_2
         public string city { get; set; }
         public string state { get; set; }
 
+        public SBList()
+        {
+
+        }
+
+        public SBList(string date, string SB, int attendance, string QBWinner, string coachWinner, string winner, int winPts, string QBLoser, string coachLoser, string loser, int losingPts, string MVP, string stadium, string city, string state)
+        {
+            this.date = date;
+            this.SB = SB;
+            this.attendance = attendance;
+            this.QBWinner = QBWinner;
+            this.coachWinner = coachWinner;
+            this.winner = winner;
+            this.winPts = winPts;
+            this.QBLoser = QBLoser;
+            this.coachLoser = coachLoser;
+            this.loser = loser;
+            this.losingPts = losingPts;
+            this.MVP = MVP;
+            this.stadium = stadium;
+            this.city = city;
+            this.state = state;
+
+        }
 
     }
 }

@@ -12,25 +12,36 @@ namespace Project_2
     {
         static void Main(string[] args)
         {
-            Write("\n");
-            SBWinners();
+            readInData();
 
-            Write("\n");
-            topFive();
 
-            ReadLine();
-
-            
         }//End of Main Method
 
-        public static void SBWinners()
+        public static void SBWinners(List<SBList> superbowl)
+        {
+
+            IEnumerable<SBList> SBQuery =
+                from team in superbowl
+                where team.date != null
+                select team;
+
+
+            WriteLine("Super Bowl Winners");
+            foreach (var team in SBQuery)
+            {
+                WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP, ptDiff);
+            }
+        }
+
+        public static void readInData()
         {
             //Declarations
             const char DELIM = ',';
             const string FILE = "Super_Bowl_Project.csv";
             FileStream file = new FileStream(FILE, FileMode.Open, FileAccess.Read);
             StreamReader reader = new StreamReader(file);
-            SBList superBowl = new SBList();
+            List<SBList> listSuperBowls = new List<SBList>();
+            //SBList superBowl = new SBList();
             string headerLine = reader.ReadLine();
             int ptDiff;
             string record;
@@ -39,8 +50,10 @@ namespace Project_2
             WriteLine("Super Bowl Winners");
             WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Difference");
             record = reader.ReadLine();
+
             while (record != null)
             {
+                SBList superBowl = new SBList();
                 info = record.Split(DELIM);
                 superBowl.date = info[0];
                 superBowl.winner = info[5];
@@ -53,6 +66,7 @@ namespace Project_2
                 ptDiff.ToString();
                 WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", superBowl.date, superBowl.winner, superBowl.QBWinner, superBowl.coachWinner, superBowl.MVP, ptDiff);
                 record = reader.ReadLine();
+                listSuperBowls.Add(superBowl);
             }
 
             reader.Close();
