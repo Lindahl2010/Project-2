@@ -14,7 +14,6 @@ namespace Project_2
         {
             readInData();
 
-
         }//End of Main Method
 
         public static void SBWinners(List<SBList> superbowl)
@@ -29,7 +28,7 @@ namespace Project_2
             WriteLine("Super Bowl Winners");
             foreach (var team in SBQuery)
             {
-                WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP, ptDiff);
+                WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP);
             }
         }
 
@@ -40,8 +39,8 @@ namespace Project_2
             const string FILE = "Super_Bowl_Project.csv";
             FileStream file = new FileStream(FILE, FileMode.Open, FileAccess.Read);
             StreamReader reader = new StreamReader(file);
-            List<SBList> listSuperBowls = new List<SBList>();
-            //SBList superBowl = new SBList();
+            List<SBList> superbowls = new List<SBList>();
+            SBList listSuperBowls;
             string headerLine = reader.ReadLine();
             int ptDiff;
             string record;
@@ -53,20 +52,12 @@ namespace Project_2
 
             while (record != null)
             {
-                SBList superBowl = new SBList();
                 info = record.Split(DELIM);
-                superBowl.date = info[0];
-                superBowl.winner = info[5];
-                superBowl.QBWinner = info[3];
-                superBowl.coachWinner = info[4];
-                superBowl.MVP = info[11];
-                superBowl.winPts = Convert.ToInt32(info[6]);
-                superBowl.losingPts = Convert.ToInt32(info[10]);
-                ptDiff = superBowl.winPts - superBowl.losingPts;
+                listSuperBowls = new SBList(info[0], info[1], Convert.ToInt32(info[2]), info[3], info[4], info[5], Convert.ToInt32(info[6]), info[7], info[8], info[9], Convert.ToInt32(info[10]), info[11], info[12], info[13], info[14]);               
+                ptDiff = listSuperBowls.winPts - listSuperBowls.losingPts;
                 ptDiff.ToString();
-                WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", superBowl.date, superBowl.winner, superBowl.QBWinner, superBowl.coachWinner, superBowl.MVP, ptDiff);
+                WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", ptDiff);
                 record = reader.ReadLine();
-                listSuperBowls.Add(superBowl);
             }
 
             reader.Close();

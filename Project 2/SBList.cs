@@ -46,7 +46,6 @@ namespace Project_2
             this.stadium = stadium;
             this.city = city;
             this.state = state;
-
         }
 
     }
