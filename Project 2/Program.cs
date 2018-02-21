@@ -16,19 +16,21 @@ namespace Project_2
 
         }//End of Main Method
 
-        public static void SBWinners(List<SBList> superbowl)
+        public static void SBWinners(List<SBList> superbowls)
         {
 
-            IEnumerable<SBList> SBQuery =
-                from team in superbowl
-                where team.date != null
-                select team;
+            var SBQuery =
+                from team in superbowls
+                where team.attendance > 0 
+                orderby team.SB
+                select new { team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP, team.ptDiff };
 
-
+            
             WriteLine("Super Bowl Winners");
+            WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Diff");
             foreach (var team in SBQuery)
             {
-                WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP);
+                WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP, team.ptDiff);
             }
         }
 
@@ -37,31 +39,34 @@ namespace Project_2
             //Declarations
             const char DELIM = ',';
             const string FILE = "Super_Bowl_Project.csv";
-            FileStream file = new FileStream(FILE, FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(file);
             List<SBList> superbowls = new List<SBList>();
             SBList listSuperBowls;
-            string headerLine = reader.ReadLine();
-            int ptDiff;
-            string record;
             string[] info;
 
-            WriteLine("Super Bowl Winners");
-            WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Difference");
-            record = reader.ReadLine();
 
-            while (record != null)
+            try
             {
-                info = record.Split(DELIM);
-                listSuperBowls = new SBList(info[0], info[1], Convert.ToInt32(info[2]), info[3], info[4], info[5], Convert.ToInt32(info[6]), info[7], info[8], info[9], Convert.ToInt32(info[10]), info[11], info[12], info[13], info[14]);               
-                ptDiff = listSuperBowls.winPts - listSuperBowls.losingPts;
-                ptDiff.ToString();
-                WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", ptDiff);
-                record = reader.ReadLine();
-            }
+                FileStream file = new FileStream(FILE, FileMode.Open, FileAccess.Read);
+                StreamReader reader = new StreamReader(file);
 
-            reader.Close();
-            file.Close();
+                while (!reader.EndOfStream)
+                {
+                    string headerLine = reader.ReadLine();
+                    info = reader.ReadLine().Split(DELIM);
+                    listSuperBowls = new SBList(info[0], info[1], Convert.ToInt32(info[2]), info[3], info[4], info[5], Convert.ToInt32(info[6]), info[7], info[8], info[9], Convert.ToInt32(info[10]), info[11], info[12], info[13], info[14]);
+                    superbowls.Add(listSuperBowls);
+                }
+
+                reader.Close();
+                file.Close();
+
+            }
+            catch(Exception i)
+            {
+                WriteLine(i.Message);
+            }
+            
+            SBWinners(superbowls);
             ReadLine();
 
         }

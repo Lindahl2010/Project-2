@@ -23,6 +23,7 @@ namespace Project_2
         public string stadium { get; set; }
         public string city { get; set; }
         public string state { get; set; }
+        public int ptDiff { get; set; }
 
         public SBList()
         {
@@ -46,7 +47,13 @@ namespace Project_2
             this.stadium = stadium;
             this.city = city;
             this.state = state;
+            ptDiff = winPts - losingPts;
+            ptDiff.ToString();
         }
 
+        public override string ToString()
+        {
+            return String.Format($"{date} {SB} {attendance} {QBWinner} {coachWinner} {winner} {winPts} {QBLoser} {coachLoser} {loser} {losingPts} {MVP} {stadium} {city} {state} {ptDiff}");
+        }
     }
 }
