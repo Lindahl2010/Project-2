@@ -12,81 +12,12 @@ namespace Project_2
     {
         static void Main(string[] args)
         {
+
             readInData();
 
         }//End of Main Method
 
-        public static void SBWinners(List<SBList> superbowls)
-        {
-
-            var SBQuery =
-                from team in superbowls
-                where team.attendance > 0 
-                orderby team.date
-                select new { team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP, team.ptDiff };
-
-            
-            WriteLine("Super Bowl Winners");
-            WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Diff");
-            foreach (var team in SBQuery)
-            {
-                WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP, team.ptDiff);
-            }
-        }
-
-        public static void topFive(List<SBList> superbowls)
-        {
-            var SBQuery =
-                from team in superbowls
-                where team.attendance > 0
-                orderby team.attendance descending
-                select new { team.date, team.winner, team.loser, team.city, team.state, team.stadium };
-
-            WriteLine("Top Five Attended Super Bowl's");
-            WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Winning Team", "Losing Team", "City", "State", "Stadium");
-            foreach (var team in SBQuery)
-            {
-                WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date, team.winner, team.loser, team.city, team.state, team.stadium);
-            }
-        }
-
-        public static void host(List<SBList> superbowls)
-        {
-            //Figure out how to find which state has hosted the most Super Bowl's 
-            var SBQuery =
-                from team in superbowls
-                where team.attendance > 103700
-                orderby team.SB
-                select new { team.city, team.state, team.stadium };
-
-            WriteLine("State that hosted the Most Super Bowls");
-            WriteLine("\n{0,-15}{1,-30}{2,-30}", "City", "State", "Stadium");
-            foreach(var team in SBQuery)
-            {
-                WriteLine("\n{0,-15}{1,-30}{2,-30}", team.city, team.state, team.stadium);
-            }
-        }
-
-        public static void MVP(List<SBList> superbowls)
-        {
-            //Figure out how to find items repeated more than once 
-            var SBQuery =
-                from team in superbowls
-                where team.date != null
-                orderby team.SB
-                select new { team.MVP, team.winner, team.loser };
-
-            WriteLine("Players to receive MVP 2 or more times");
-            WriteLine("\n{0,-15}{1,-30}{2,-30}", "MVP", "Winning Team", "Losing Team");
-            foreach(var team in SBQuery)
-            {
-                WriteLine("\n{0,-15}{1,-30}{2,-30}", team.MVP, team.winner, team.loser);
-            }
-        }
-
-
-
-        public static void readInData()
+        public static void readInData()//Reads in data from the designated project 2 .csv file
         {
             //Declarations
             const char DELIM = ',';
@@ -94,7 +25,6 @@ namespace Project_2
             List<SBList> superbowls = new List<SBList>();
             SBList listSuperBowls;
             string[] info;
-
 
             try
             {
@@ -113,49 +43,116 @@ namespace Project_2
                 file.Close();
 
             }
-            catch(Exception i)
+            catch (Exception i)
             {
                 WriteLine(i.Message);
             }
-            
-            SBWinners(superbowls);
-            ReadLine();
-            topFive(superbowls);
+
+            //Writes the data to the text file using queries
+            writeData(superbowls);
             ReadLine();
 
         }
 
-        public static void Top()
+        public static void writeData(List<SBList> superbowls)
         {
-            //Declarations
-            const char DELIM = ',';
-            const string FILE = "Super_Bowl_Project.csv";
-            FileStream file = new FileStream(FILE, FileMode.Open, FileAccess.Read);
-            StreamReader reader = new StreamReader(file);
-            SBList superBowl = new SBList();
-            string headerLine = reader.ReadLine();
-            string record;
-            string[] info;
 
-            WriteLine("Top Five Attended Super Bowl's");
-            WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Winning Team", "Losing Team", "City", "State", "Stadium");
-            record = reader.ReadLine();
-            while (record != null)
+            FileStream file = new FileStream("SuperBowl.txt", FileMode.Create, FileAccess.Write);
+            StreamWriter writer = new StreamWriter(file);
+
+            //Prints out all super bowl winners but is not correctly ordering by date
+            var SBWinners =
+                from team in superbowls
+                where team.attendance > 0 
+                orderby team.date
+                select new { team.date, team.winner, team.QBWinner, team.coachWinner, team.MVP, team.ptDiff };
+
+            writer.WriteLine("Super Bowl Winners");
+            writer.WriteLine("\n");
+            writer.WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Diff");
+            writer.WriteLine("\n");
+
+            int date;
+            int x;
+            foreach (var team in SBWinners)
             {
-                info = record.Split(DELIM);
-                superBowl.date = info[0];
-                superBowl.winner = info[5];
-                superBowl.loser = info[9];
-                superBowl.city = info[13];
-                superBowl.state = info[14];
-                superBowl.stadium = info[12];
-                WriteLine("{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", superBowl.date, superBowl.winner, superBowl.loser, superBowl.city, superBowl.state, superBowl.stadium);
-                record = reader.ReadLine();
+                date = team.date.Length;
+                x = date - 2;
+                writer.WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date.Remove(0,x), team.winner, team.QBWinner, team.coachWinner, team.MVP, team.ptDiff);
+            }
+            writer.WriteLine("\n");
+
+            //Prints the top five attended super bowls ordered by attendance
+            var topFive =
+                from team in superbowls
+                where team.attendance > 100000
+                orderby team.attendance descending
+                select new { team.date, team.winner, team.loser, team.city, team.state, team.stadium };
+
+            writer.WriteLine("Top Five Attended Super Bowl's");
+            writer.WriteLine("\n");
+            writer.WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Winning Team", "Losing Team", "City", "State", "Stadium");
+            writer.WriteLine("\n");
+
+            foreach (var team in topFive)
+            {
+                writer.WriteLine("\n{0,-15}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date, team.winner, team.loser, team.city, team.state, team.stadium);
+            }
+            writer.WriteLine("\n");
+
+            //Figure out how to find which state has hosted the most Super Bowl's 
+            var host =
+                from team in superbowls
+                where team.attendance > 0
+                orderby team.date
+                select new { team.city, team.state, team.stadium };
+
+            var group = superbowls.GroupBy(superbowl => superbowl.state).Where(superbowl => superbowl.Count() > 12).Select(superbowl => superbowl.Key);
+
+            writer.WriteLine("State that hosted the Most Super Bowls");
+            writer.WriteLine("\n");
+            writer.WriteLine("\n{0,-15}{1,-30}{2,-30}", "City", "State", "Stadium");
+            writer.WriteLine("\n");
+
+            foreach(var dupName in group)
+            {
+                writer.WriteLine("{0,-15}", dupName);
+            }
+            
+            //Figure out how to find items repeated more than once 
+            //var MVP =
+            //    from team in superbowls
+            //    where team.date != null
+            //    orderby team.date
+            //    select new { team.MVP, team.winner, team.loser };
+
+            var MVP = superbowls.GroupBy(superbowl => superbowl.MVP).Where(superbowl => superbowl.Count() > 1).Select(superbowl => superbowl.Key);
+
+            writer.WriteLine("Players to receive MVP 2 or more times");
+            writer.WriteLine("\n");
+            writer.WriteLine("\n{0,-20}{1,-30}{2,-30}", "MVP", "Winning Team", "Losing Team");
+            writer.WriteLine("\n");
+
+            foreach( var dupName in MVP)
+            {
+                writer.WriteLine(dupName);
             }
 
-            reader.Close();
+            //foreach (var team in MVP)
+            //{
+            //    writer.WriteLine("\n{0,-20}{1,-30}{2,-30}", team.MVP, team.winner, team.loser);
+            //}
+            writer.WriteLine("\n");
+
+            var lost = superbowls.GroupBy(superbowl => superbowl.coachLoser).Where(superbowl => superbowl.Count() > 1).Select(superbowl => superbowl.Key);
+
+            foreach(var coach in lost)
+            {
+                writer.WriteLine(coach);
+            }
+
+            writer.Close();
             file.Close();
-            ReadLine();
 
         }
     }//End of Program Class
