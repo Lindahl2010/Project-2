@@ -12,6 +12,9 @@ namespace Project_2
     {
         static void Main(string[] args)
         {
+            WriteLine("This program will write the information from the Excel File into a Text File.");
+            Write("\nPlease press Enter to execute the program...");
+            ReadLine();
 
             readInData();
 
@@ -50,7 +53,6 @@ namespace Project_2
 
             //Writes the data to the text file using queries
             writeData(superbowls);
-            ReadLine();
 
         }
 
@@ -193,18 +195,14 @@ namespace Project_2
                 }
                 writer.WriteLine("\n");
 
-
-
+                writer.Close();
+                file.Close();
 
             }
             catch (Exception i)
             {
                 WriteLine(i.Message);
             }
-
-            writer.Close();
-            file.Close();
-
         }
     }//End of Program Class
 }
