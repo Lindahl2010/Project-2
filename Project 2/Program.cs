@@ -12,6 +12,7 @@ namespace Project_2
     {
         static void Main(string[] args)
         {
+            string userInput;
 
             readInData();
 
@@ -71,14 +72,14 @@ namespace Project_2
 
                 writer.WriteLine("Super Bowl Winners");
                 writer.WriteLine("\n");
-                writer.WriteLine("\n{0,-5}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Diff");
+                writer.WriteLine("\n{0,-5}{1,-25}{2,-30}{3,-20}{4,-30}{5,-30}", "Year", "Team", "QB", "Coach", "MVP", "Point Diff");
                 writer.WriteLine("\n");
 
                 foreach (var team in SBWinners)
                 {
                     date = team.date.Length;
                     x = date - 2;
-                    writer.WriteLine("\n{0,-5}{1,-30}{2,-30}{3,-20}{4,-30}{5,-30}", team.date.Remove(0,x), team.winner, team.QBWinner, team.coachWinner, team.MVP, team.ptDiff);
+                    writer.WriteLine("\n{0,-5}{1,-25}{2,-30}{3,-20}{4,-30}{5,-30}", team.date.Remove(0,x), team.winner, team.QBWinner, team.coachWinner, team.MVP, team.ptDiff);
                 }
                 writer.WriteLine("\n");
 
@@ -91,7 +92,7 @@ namespace Project_2
 
                 writer.WriteLine("Top Five Attended Super Bowl's");
                 writer.WriteLine("\n");
-                writer.WriteLine("\n{0,-3}{1,-15}{2,-30}{3,-30}{4,-20}{5,-30}{6,-30}","#", "Year", "Winning Team", "Losing Team", "City", "State", "Stadium");
+                writer.WriteLine("\n{0,-3}{1,-10}{2,-25}{3,-25}{4,-15}{5,-15}{6,-25}","#", "Year", "Winning Team", "Losing Team", "City", "State", "Stadium");
                 writer.WriteLine("\n");
 
                 z = 0;
@@ -100,7 +101,7 @@ namespace Project_2
                     date = team.date.Length;
                     x = date - 2;
                     z += 1;
-                    writer.WriteLine("\n{0,-3}{1,-15}{2,-30}{3,-30}{4,-20}{5,-30}{6,-30}", z + ")", team.date.Remove(0,x), team.winner, team.loser, team.city, team.state, team.stadium);
+                    writer.WriteLine("\n{0,-3}{1,-10}{2,-25}{3,-25}{4,-15}{5,-15}{6,-25}", z + ")", team.date.Remove(0,x), team.winner, team.loser, team.city, team.state, team.stadium);
                 }
                 writer.WriteLine("\n");
 
@@ -193,9 +194,36 @@ namespace Project_2
                 }
                 writer.WriteLine("\n");
 
+                var points =
+                    from team in superbowls
+                    where team.ptDiff > 40
+                    select new { team.ptDiff, team.SB, team.winner, team.loser };
 
+                writer.WriteLine("Superbowl with the greatest point difference");
+                writer.WriteLine("\n");
+                writer.WriteLine("{0,-15}{1,-15}{2,-30}{3,-30}", "Super Bowl", "Pt. Diff.", "Winning Team", "Losing Team");
+                writer.WriteLine("\n");
 
+                foreach(var team in points)
+                {
+                    writer.WriteLine("{0,-15}{1,-15}{2,-30}{3,-30}", team.SB, team.ptDiff.ToString(), team.winner, team.loser);
+                }
+                writer.WriteLine("\n");
 
+                var avg =
+                    from team in superbowls
+                    where team.attendance > 0
+                    select new { team.attendance };
+
+                writer.WriteLine("Average attendance of Super Bowl's");
+                writer.WriteLine("\n");
+                writer.WriteLine("Attendance");
+                writer.WriteLine("\n");
+
+                foreach(var team in superbowls)
+                {
+
+                }
             }
             catch (Exception i)
             {

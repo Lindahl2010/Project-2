@@ -49,6 +49,7 @@ namespace Project_2
             this.state = state;
             ptDiff = winPts - losingPts;
             ptDiff.ToString();
+            
         }
     }
 }
