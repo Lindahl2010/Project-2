@@ -12,7 +12,13 @@ namespace Project_2
     {
         static void Main(string[] args)
         {
+<<<<<<< HEAD
             string userInput;
+=======
+            WriteLine("This program will write the information from the Excel File into a Text File.");
+            Write("\nPlease press Enter to execute the program...");
+            ReadLine();
+>>>>>>> 29a3d06d0bd524c9a041a8222fb5a3d7aa8ddf2a
 
             readInData();
 
@@ -51,7 +57,6 @@ namespace Project_2
 
             //Writes the data to the text file using queries
             writeData(superbowls);
-            ReadLine();
 
         }
 
@@ -194,6 +199,7 @@ namespace Project_2
                 }
                 writer.WriteLine("\n");
 
+<<<<<<< HEAD
                 var points =
                     from team in superbowls
                     where team.ptDiff > 40
@@ -219,6 +225,10 @@ namespace Project_2
                 writer.WriteLine("\n");
                 writer.WriteLine("Attendance");
                 writer.WriteLine("\n");
+=======
+                writer.Close();
+                file.Close();
+>>>>>>> 29a3d06d0bd524c9a041a8222fb5a3d7aa8ddf2a
 
                 foreach(var team in superbowls)
                 {
@@ -229,10 +239,6 @@ namespace Project_2
             {
                 WriteLine(i.Message);
             }
-
-            writer.Close();
-            file.Close();
-
         }
     }//End of Program Class
 }
